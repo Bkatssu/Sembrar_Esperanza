@@ -279,7 +279,6 @@ window.addEventListener('DOMContentLoaded', function() {
   document.getElementById('img-bi').src       = pfx + BI;
   document.getElementById('img-banrural').src = pfx + BANRURAL;
   construirDonaciones();
-  restaurarGuardados();
 });
 
 // Navegación
@@ -340,7 +339,7 @@ function construirDonaciones() {
         if (cb.checked) { seleccionados.add(key); fila.classList.add('marcado'); }
         else            { seleccionados.delete(key); fila.classList.remove('marcado'); }
         document.getElementById('cont-sel').textContent = seleccionados.size;
-        try { localStorage.setItem('don_sel', JSON.stringify(Array.from(seleccionados))); } catch(e2){}
+        
       });
       body.appendChild(fila);
     });
@@ -349,21 +348,7 @@ function construirDonaciones() {
   });
 }
 
-function restaurarGuardados() {
-  try {
-    var saved = JSON.parse(localStorage.getItem('don_sel') || '[]');
-    if (!saved.length) return;
-    document.querySelectorAll('.item-fila').forEach(function(fila) {
-      if (saved.indexOf(fila.dataset.key) !== -1) {
-        var cb = fila.querySelector('input[type=checkbox]');
-        cb.checked = true;
-        fila.classList.add('marcado');
-        seleccionados.add(fila.dataset.key);
-      }
-    });
-    document.getElementById('cont-sel').textContent = seleccionados.size;
-  } catch(e){}
-}
+
 
 function verLista() {
   var ul = document.getElementById('lista-modal');
